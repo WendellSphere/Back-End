@@ -1,5 +1,27 @@
 USE db;
 
+ALTER  Function [dbo].[FindFirstDayOfMonth](
+	@Date dateTIME 
+)
+Returns datetime
+/*---------------- TEST CODE-------------
+Select dbo.IsLastDayOfMonth('5/31/17')
+
+select dbo.FindFirstDayOfMonth(NUlL)
+*/
+AS
+
+BEGIN
+	if @Date is null
+	Begin
+		Set @Date = GETDATE()
+	End
+	
+	Set @Date = Convert(varchar(12), DATEPART(mm, @Date), 110) + '/1/' + Convert(varchar(12), DATEPART(yy, @Date), 110) + ' 00:00:00' 
+
+	RETURN  @Date
+END
+
 ALTER Function [dbo].[IsLastDayOfMonth](
 	@Date datetime = null
 )
