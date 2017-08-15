@@ -61,3 +61,21 @@ BEGIN
 			END
 		RETURN @Date
 END
+
+ALTER  Function [dbo].[FindFirstDayOfMonth](
+	@Date dateTIME 
+)
+Returns datetime
+/*---------------- TEST CODE-------------
+Select dbo.IsLastDayOfMonth('5/30/17')
+
+select dbo.FindFirstDayOfMonth(NUlL)
+*/
+AS
+
+BEGIN
+		SET @Date =  dbo.FindLastDayOfMonth(@Date)
+		SET @Date =  DATEADD(DD, 1, @Date)
+		SET @Date =  DATEADD(mm, -1, @Date)
+		RETURN  @Date
+END
