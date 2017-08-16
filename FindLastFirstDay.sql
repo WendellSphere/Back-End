@@ -101,3 +101,33 @@ BEGIN
 		SET @Date =  DATEADD(mm, -1, @Date)
 		RETURN  @Date
 END
+
+
+ALTER Function [dbo].[FindLastDayOfMonth](
+	@Date datetime 
+)
+Returns datetime
+/*
+
+select dbo.FindLastDayOfMonth(NULL)
+
+DECLARE @D DATETIME = '12/03/2017'
+SET @D = DATEADD(MM, 1, @D)
+SET @D = Convert(varchar(12), DATEPART(mm, @D), 110) + '/1/' + Convert(varchar(12), DATEPART(yy, @D), 110) + ' 23:59:59.99' 
+SET @D = DATEADD(DD, -1, @D)
+SELECT @D
+*/
+AS
+
+BEGIN
+		IF @Date IS NULL
+			BEGIN
+				SET @Date = GETDATE()
+			END
+		SET @Date= DATEADD(MM, 1, @Date)
+		SET @Date= Convert(varchar(12), DATEPART(mm, @Date), 110) 
+			+ '/1/' + Convert(varchar(12), DATEPART(yy, @Date), 110) + ' 23:59:59.99' 
+		SET @Date = DATEADD(DD, -1, @Date)
+
+	RETURN @Date
+END
